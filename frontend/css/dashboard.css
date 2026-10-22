@@ -1,0 +1,359 @@
+/* ==========================================================================
+   ConceptClear AI - Dashboard Layout & Widgets Stylesheet
+   ========================================================================== */
+
+.dashboard-layout {
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--bg-primary);
+}
+
+/* Sidebar */
+.sidebar {
+  width: 260px;
+  background-color: var(--bg-sidebar);
+  color: #94A3B8;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 90;
+  transition: transform var(--transition-normal);
+  border-right: 1px solid #1E293B;
+}
+
+.sidebar-header {
+  padding: 1.5rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #1E293B;
+}
+
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  color: #FFFFFF;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 1.15rem;
+  text-decoration: none;
+}
+
+.sidebar-brand-icon {
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, var(--primary-blue), var(--secondary-violet));
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FFFFFF;
+}
+
+.sidebar-menu {
+  flex: 1;
+  padding: 1.25rem 0.75rem;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  overflow-y: auto;
+}
+
+.sidebar-item-link {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.75rem 1rem;
+  color: #94A3B8;
+  font-weight: 500;
+  font-size: 0.925rem;
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  transition: all var(--transition-fast);
+}
+
+.sidebar-item-link:hover {
+  background-color: var(--bg-sidebar-hover);
+  color: #F8FAFC;
+}
+
+.sidebar-item-link.active {
+  background: linear-gradient(135deg, rgba(79, 70, 229, 0.2), rgba(124, 58, 237, 0.2));
+  color: #818CF8;
+  font-weight: 600;
+  border-left: 3px solid var(--primary-blue);
+}
+
+.sidebar-footer {
+  padding: 1rem 1.25rem;
+  border-top: 1px solid #1E293B;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.user-mini-profile {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.avatar-circle {
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-full);
+  background: linear-gradient(135deg, var(--primary-blue), var(--secondary-violet));
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.user-mini-info {
+  line-height: 1.2;
+}
+
+.user-mini-name {
+  color: #F8FAFC;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.user-mini-role {
+  color: #64748B;
+  font-size: 0.75rem;
+  text-transform: capitalize;
+}
+
+/* Main Content Area */
+.main-wrapper {
+  margin-left: 260px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* Topbar */
+.topbar {
+  background-color: #FFFFFF;
+  border-bottom: 1px solid var(--border-color);
+  padding: 0.85rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 80;
+}
+
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.mobile-menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--text-main);
+  cursor: pointer;
+}
+
+.topbar-greeting h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.topbar-greeting p {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.lang-picker-select {
+  padding: 0.4rem 0.75rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  background: #FFFFFF;
+  font-size: 0.85rem;
+  color: var(--text-main);
+  outline: none;
+  cursor: pointer;
+}
+
+/* Dashboard Content Viewport */
+.dashboard-content {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+/* KPI Stat Cards */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+}
+
+.stat-card {
+  background: #FFFFFF;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-color);
+  padding: 1.25rem;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.stat-icon-wrap {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stat-icon-blue { background-color: var(--primary-blue-light); color: var(--primary-blue); }
+.stat-icon-green { background-color: var(--success-green-light); color: var(--success-green); }
+.stat-icon-amber { background-color: var(--warning-amber-light); color: var(--warning-amber); }
+.stat-icon-violet { background-color: var(--secondary-violet-light); color: var(--secondary-violet); }
+
+.stat-value {
+  font-size: 1.75rem;
+  font-weight: 800;
+  font-family: var(--font-heading);
+  color: var(--text-main);
+  line-height: 1.1;
+  margin-top: 0.25rem;
+}
+
+.stat-label {
+  font-size: 0.825rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+/* Mastery Progress Circle Widget */
+.mastery-circle-wrapper {
+  position: relative;
+  width: 140px;
+  height: 140px;
+  margin: 0 auto;
+}
+
+.mastery-svg {
+  transform: rotate(-90deg);
+}
+
+.mastery-circle-bg {
+  fill: none;
+  stroke: #E2E8F0;
+  stroke-width: 10;
+}
+
+.mastery-circle-bar {
+  fill: none;
+  stroke: url(#masteryGrad);
+  stroke-width: 10;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 1s ease-in-out;
+}
+
+.mastery-circle-text {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.mastery-pct {
+  font-size: 1.75rem;
+  font-weight: 800;
+  font-family: var(--font-heading);
+  color: var(--text-main);
+}
+
+.mastery-sub {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+/* Concept Cards in Grid */
+.concept-item-card {
+  background: #FFFFFF;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: transform var(--transition-fast);
+}
+
+.concept-item-card:hover {
+  transform: translateX(4px);
+  border-color: #CBD5E1;
+}
+
+.concept-item-left {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.dot-green { background-color: var(--success-green); }
+.dot-amber { background-color: var(--warning-amber); }
+.dot-red { background-color: var(--danger-red); }
+.dot-grey { background-color: #94A3B8; }
+
+/* Responsive Dashboard Layout */
+@media (max-width: 1024px) {
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  .main-wrapper {
+    margin-left: 0;
+  }
+  .mobile-menu-btn {
+    display: block;
+  }
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+  .dashboard-content {
+    padding: 1rem;
+  }
+}

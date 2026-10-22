@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Step-by-Step Lessons & AI Tutor — ConceptClear AI</title>
+  <meta name="description" content="Master concepts from first principles with paginated step-by-step lessons, real-world analogies, worked examples, and multilingual AI tutoring.">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* Multi-Step Lesson Player Styles */
+    .step-progress-wrapper {
+      margin-top: 1rem;
+      margin-bottom: 0.5rem;
+    }
+    .step-progress-bar-bg {
+      height: 8px;
+      background: #E2E8F0;
+      border-radius: 999px;
+      overflow: hidden;
+      position: relative;
+    }
+    .step-progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary-blue), var(--secondary-violet));
+      width: 20%;
+      transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .step-pills-container {
+      display: flex;
+      gap: 0.5rem;
+      overflow-x: auto;
+      padding: 0.5rem 0 0.75rem;
+      scrollbar-width: thin;
+    }
+    .step-pill-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.5rem 0.85rem;
+      border-radius: var(--radius-md);
+      font-size: 0.825rem;
+      font-weight: 600;
+      border: 1px solid var(--border-color);
+      background: #FFFFFF;
+      color: var(--text-secondary);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+    .step-pill-btn:hover {
+      background: #F1F5F9;
+      color: var(--text-main);
+    }
+    .step-pill-btn.active {
+      background: var(--primary-blue);
+      color: #FFFFFF;
+      border-color: var(--primary-blue);
+      box-shadow: 0 2px 6px rgba(79, 70, 229, 0.25);
+    }
+    .step-pill-btn.completed {
+      border-color: var(--success-green);
+      color: var(--success-green);
+      background: #F0FDF4;
+    }
+    .step-content-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      box-shadow: var(--shadow-sm);
+      min-height: 380px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      animation: fadeInStep 0.3s ease-out;
+    }
+    @keyframes fadeInStep {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .step-nav-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 1.75rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--border-color);
+    }
+    .subject-pill-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.25rem 0.65rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .badge-math { background: #EEF2FF; color: var(--primary-blue); }
+    .badge-phys { background: #FEF3C7; color: #B45309; }
+    .badge-cs { background: #ECFDF5; color: #047857; }
+  </style>
+</head>
+<body>
+
+  <div class="dashboard-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <a href="/student-dashboard.html" class="sidebar-brand">
+          <div class="sidebar-brand-icon"><i data-lucide="brain" style="width: 18px; height: 18px;"></i></div>
+          <span>ConceptClear AI</span>
+        </a>
+      </div>
+
+      <ul class="sidebar-menu">
+        <li>
+          <a href="/student-dashboard.html" class="sidebar-item-link">
+            <i data-lucide="layout-dashboard" style="width: 18px; height: 18px;"></i>
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <li>
+          <a href="/learn.html" class="sidebar-item-link active">
+            <i data-lucide="book-open" style="width: 18px; height: 18px;"></i>
+            <span>My Learning</span>
+          </a>
+        </li>
+        <li>
+          <a href="/tests.html" class="sidebar-item-link">
+            <i data-lucide="file-text" style="width: 18px; height: 18px;"></i>
+            <span>Examination Hall</span>
+          </a>
+        </li>
+        <li>
+          <a href="#tutor-section" class="sidebar-item-link">
+            <i data-lucide="bot" style="width: 18px; height: 18px;"></i>
+            <span>AI Tutor</span>
+          </a>
+        </li>
+        <li>
+          <a href="/concept-map.html" class="sidebar-item-link">
+            <i data-lucide="network" style="width: 18px; height: 18px;"></i>
+            <span>Concept Map</span>
+          </a>
+        </li>
+        <li>
+          <a href="/analytics.html" class="sidebar-item-link">
+            <i data-lucide="line-chart" style="width: 18px; height: 18px;"></i>
+            <span>My Progress</span>
+          </a>
+        </li>
+        <li>
+          <a href="/profile.html" class="sidebar-item-link">
+            <i data-lucide="user" style="width: 18px; height: 18px;"></i>
+            <span>Profile</span>
+          </a>
+        </li>
+        <li style="margin-top: auto;">
+          <a href="#" class="sidebar-item-link" onclick="logout(); return false;" style="color: #F87171;">
+            <i data-lucide="log-out" style="width: 18px; height: 18px;"></i>
+            <span>Logout</span>
+          </a>
+        </li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main-wrapper">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="mobile-menu-btn" aria-label="Toggle navigation"><i data-lucide="menu"></i></button>
+          <div class="topbar-greeting">
+            <h2>Concept Mastery Lessons 📚</h2>
+            <p>Step-by-step interactive lessons with real-world analogies & AI explanations</p>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <!-- Multi-Subject Dropdown -->
+          <div class="flex items-center gap-2">
+            <span style="font-size: 0.85rem; font-weight: 700; color: var(--navy-900);">Subject:</span>
+            <select id="global-subject-selector" class="global-subject-selector lang-picker-select" style="font-weight: 700; min-width: 155px; border-color: var(--primary-blue); background: #FFFFFF;">
+              <option value="Mathematics">📐 Mathematics</option>
+              <option value="Physics">⚡ Physics</option>
+              <option value="Computer Science">💻 Computer Science</option>
+            </select>
+          </div>
+
+          <!-- Active Concept Selector -->
+          <div class="flex items-center gap-2">
+            <span style="font-size: 0.85rem; font-weight: 600; color: var(--text-secondary);">Topic:</span>
+            <select id="concept-selector" class="lang-picker-select" style="font-weight: 600; min-width: 170px;">
+              <!-- Populated dynamically via learning.js based on selected subject -->
+            </select>
+          </div>
+        </div>
+      </header>
+
+      <main class="dashboard-content">
+        <!-- Lesson Header & Progress Card -->
+        <div class="card" style="background: linear-gradient(135deg, #EEF2FF 0%, #FFFFFF 100%); border-left: 5px solid var(--primary-blue); margin-bottom: 1.5rem;">
+          <div class="flex items-center justify-between" style="margin-bottom: 0.5rem;">
+            <div class="flex items-center gap-2">
+              <span id="lesson-subject-badge" class="subject-pill-badge badge-math">Mathematics</span>
+              <span class="badge badge-primary">Interactive 5-Step Lesson</span>
+            </div>
+            <a href="/concept-map.html" class="btn btn-secondary btn-sm">
+              <i data-lucide="git-branch" style="width: 14px; height: 14px;"></i> View Dependency Map
+            </a>
+          </div>
+          <h1 id="lesson-title" style="font-size: 1.85rem; font-weight: 800; color: var(--navy-900); margin-bottom: 0.35rem;">
+            Loading Lesson...
+          </h1>
+          <p id="lesson-summary" style="font-size: 1rem; color: var(--text-secondary); max-width: 820px; line-height: 1.5;">
+            Please wait while the step-by-step curriculum is initialized.
+          </p>
+
+          <!-- Step Progress Bar -->
+          <div class="step-progress-wrapper">
+            <div class="flex items-center justify-between" style="margin-bottom: 0.35rem; font-size: 0.8rem; font-weight: 700; color: var(--text-secondary);">
+              <span id="step-counter-label">Step 1 of 5 (20% Completed)</span>
+              <span id="step-current-title-mini">1. Core Principles</span>
+            </div>
+            <div class="step-progress-bar-bg">
+              <div id="step-progress-fill" class="step-progress-bar-fill" style="width: 20%;"></div>
+            </div>
+          </div>
+
+          <!-- Clickable Step Navigation Tabs -->
+          <div id="step-pills-bar" class="step-pills-container">
+            <button class="step-pill-btn active" data-step="1">1. Core Principles</button>
+            <button class="step-pill-btn" data-step="2">2. Real-World Analogy</button>
+            <button class="step-pill-btn" data-step="3">3. Worked Problem</button>
+            <button class="step-pill-btn" data-step="4">4. Common Traps</button>
+            <button class="step-pill-btn" data-step="5">5. Mastery Check</button>
+          </div>
+        </div>
+
+        <!-- 2 Column Body: Left Paginated Step Player, Right AI Tutor -->
+        <div class="grid grid-2" style="gap: 1.75rem; align-items: start;">
+          <!-- Left Column: Step Content Card + Adaptive Quiz -->
+          <div class="flex flex-col gap-4">
+            
+            <!-- Dynamic Paginated Step Player Card -->
+            <div id="active-step-card" class="step-content-card">
+              <div>
+                <div class="flex items-center justify-between" style="margin-bottom: 1rem;">
+                  <span id="step-badge" class="badge badge-primary">Step 1: Concept Foundations</span>
+                  <span id="step-badge-mini" style="font-size: 0.8rem; color: var(--text-secondary); font-weight: 600;">Step 1 of 5</span>
+                </div>
+                <h2 id="step-heading" style="font-size: 1.45rem; font-weight: 800; color: var(--navy-900); margin-bottom: 1rem;">
+                  Core Principles & Rules
+                </h2>
+
+                <!-- Rendered Step Body -->
+                <div id="step-body-content" style="line-height: 1.75; font-size: 1rem; color: var(--text-main); margin-bottom: 1.5rem;">
+                  <!-- Dynamic content injected via learning.js -->
+                </div>
+
+                <!-- Key Takeaway Banner -->
+                <div id="step-takeaway-box" style="background: #F0FDF4; border-left: 4px solid var(--success-green); border-radius: var(--radius-sm); padding: 0.85rem 1rem; margin-top: 1rem; display: flex; align-items: flex-start; gap: 0.65rem;">
+                  <i data-lucide="check-circle-2" style="width: 20px; height: 20px; color: var(--success-green); flex-shrink: 0; margin-top: 2px;"></i>
+                  <div>
+                    <div style="font-weight: 700; color: #166534; font-size: 0.85rem; text-transform: uppercase;">Key Takeaway</div>
+                    <div id="step-takeaway-text" style="color: #14532D; font-size: 0.925rem; line-height: 1.5;">
+                      Loading principle...
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Paginated Bottom Navigation with Previous and Next Buttons -->
+              <div class="step-nav-bar">
+                <button id="btn-prev-step" class="btn btn-secondary" onclick="goToPreviousStep()" disabled>
+                  <i data-lucide="chevron-left" style="width: 18px; height: 18px;"></i> Previous Step
+                </button>
+                <div style="text-align: center;">
+                  <span id="step-nav-indicator" style="font-weight: 700; font-size: 0.95rem; color: var(--navy-900);">
+                    Step 1 of 5
+                  </span>
+                </div>
+                <button id="btn-next-step" class="btn btn-primary" onclick="goToNextStep()">
+                  Next Step <i data-lucide="chevron-right" style="width: 18px; height: 18px;"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Dynamic Adaptive Practice Quiz with Misconception Detection -->
+            <div id="adaptive-quiz-section" class="card" style="border-top: 4px solid var(--secondary-violet);">
+              <div class="flex items-center justify-between" style="margin-bottom: 1rem;">
+                <div>
+                  <h3 style="font-size: 1.25rem; font-weight: 800; color: var(--navy-900); margin-bottom: 0.25rem;">
+                    Adaptive Diagnostic Practice
+                  </h3>
+                  <p style="font-size: 0.85rem; color: var(--text-secondary);">
+                    Calibrated question testing root understanding with real-time distractor feedback
+                  </p>
+                </div>
+                <span class="badge badge-practice">Practice Mode</span>
+              </div>
+              <div id="practice-quiz-container">
+                <!-- Injected via learning.js -->
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Right Column: Interactive Multilingual AI Tutor Chat -->
+          <div id="tutor-section" class="card" style="padding: 0; display: flex; flex-direction: column; height: 750px; position: sticky; top: 90px; box-shadow: var(--shadow-lg);">
+            <!-- Tutor Header -->
+            <div style="padding: 1.25rem 1.5rem; background: linear-gradient(135deg, var(--navy-900), var(--primary-blue)); color: #FFFFFF; border-radius: var(--radius-lg) var(--radius-lg) 0 0; display: flex; align-items: center; justify-content: space-between;">
+              <div class="flex items-center gap-3">
+                <div style="width: 36px; height: 36px; border-radius: 50%; background: rgba(255, 255, 255, 0.2); display: flex; align-items: center; justify-content: center;">
+                  <i data-lucide="bot" style="width: 20px; height: 20px; color: #FFFFFF;"></i>
+                </div>
+                <div>
+                  <div style="font-weight: 800; font-size: 1rem;">ConceptClear AI Tutor</div>
+                  <div style="font-size: 0.75rem; color: #C7D2FE;">Multilingual &bull; Cognitive Gap Aware</div>
+                </div>
+              </div>
+              <div class="badge" style="background: rgba(16, 185, 129, 0.2); color: #34D399; border: 1px solid rgba(16, 185, 129, 0.4);">
+                Online
+              </div>
+            </div>
+
+            <!-- Quick Prompt Chips -->
+            <div style="padding: 0.75rem 1.25rem; background-color: #F8FAFC; border-bottom: 1px solid var(--border-color); display: flex; gap: 0.5rem; overflow-x: auto; white-space: nowrap;">
+              <button type="button" class="btn btn-secondary btn-sm tutor-prompt-chip" data-prompt="Give me a step-by-step worked example">
+                Step-by-step
+              </button>
+              <button type="button" class="btn btn-secondary btn-sm tutor-prompt-chip" data-prompt="Explain using a real-world analogy">
+                Real analogy
+              </button>
+              <button type="button" class="btn btn-secondary btn-sm tutor-prompt-chip" data-prompt="Give me a practice question">
+                Practice quiz
+              </button>
+              <button type="button" class="btn btn-secondary btn-sm tutor-prompt-chip" data-prompt="Explain in Hindi हिंदी में समझाएं">
+                हिंदी (Hindi)
+              </button>
+              <button type="button" class="btn btn-secondary btn-sm tutor-prompt-chip" data-prompt="Explain in Marathi मराठीत सांगा">
+                मराठी (Marathi)
+              </button>
+            </div>
+
+            <!-- Chat Message Feed -->
+            <div id="tutor-messages-box" style="flex: 1; padding: 1.25rem; overflow-y: auto; background-color: #FFFFFF;">
+              <!-- Welcome Initial Message -->
+              <div style="display: flex; gap: 0.75rem; margin-bottom: 1rem;">
+                <div style="width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--primary-blue), var(--secondary-violet)); color: white; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 700; flex-shrink: 0;">AI</div>
+                <div style="max-width: 82%; background: #F8FAFC; border: 1px solid var(--border-color); color: var(--text-main); padding: 1rem 1.25rem; border-radius: 16px 16px 16px 4px; font-size: 0.925rem; line-height: 1.6;">
+                  Hello! I am your <strong>ConceptClear AI Tutor</strong>. I analyze your answers to diagnose exactly where confusion arises. Click through the <strong>Next Step</strong> buttons on the lesson or ask me any question in English, Hindi, or Marathi!
+                </div>
+              </div>
+            </div>
+
+            <!-- Chat Input Footer -->
+            <form id="tutor-chat-form" style="padding: 1rem; border-top: 1px solid var(--border-color); background-color: #F8FAFC; border-radius: 0 0 var(--radius-lg) var(--radius-lg); display: flex; gap: 0.5rem;">
+              <input type="text" id="tutor-chat-input" class="form-input" placeholder="Ask a question or request an analogy..." style="background: #FFFFFF;" required autocomplete="off">
+              <button type="submit" class="btn btn-primary" style="padding: 0 1.25rem;">
+                <i data-lucide="send" style="width: 16px; height: 16px;"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="/js/app.js"></script>
+  <script src="/js/learning.js"></script>
+</body>
+</html>

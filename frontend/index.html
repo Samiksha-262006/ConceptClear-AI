@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ConceptClear AI — AI-Powered Personalised Learning Through Learning-Gap Detection</title>
+  <meta name="description" content="Discover learning gaps, understand difficult concepts, and follow a personalised learning path designed around your needs.">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="container nav-container">
+      <a href="/" class="brand-logo">
+        <div class="brand-logo-icon">
+          <i data-lucide="brain" style="width: 20px; height: 20px;"></i>
+        </div>
+        <span>ConceptClear AI</span>
+      </a>
+
+      <nav>
+        <ul class="nav-links">
+          <li><a href="#hero" class="nav-link active">Home</a></li>
+          <li><a href="#features" class="nav-link">Features</a></li>
+          <li><a href="#how-it-works" class="nav-link">How It Works</a></li>
+          <li><a href="#for-students" class="nav-link">For Students</a></li>
+          <li><a href="#for-teachers" class="nav-link">For Teachers</a></li>
+        </ul>
+      </nav>
+
+      <div class="flex items-center gap-3">
+        <a href="/student-login.html" class="btn btn-secondary btn-sm">Student Portal</a>
+        <a href="/teacher-login.html" class="btn btn-sm" style="background: linear-gradient(135deg, #1E1B4B, var(--primary-blue)); color: #FFFFFF; border: 1px solid rgba(255,255,255,0.2); font-weight: 700; box-shadow: 0 2px 8px rgba(79,70,229,0.3); display: inline-flex; align-items: center; gap: 4px;">
+          <i data-lucide="shield" style="width: 14px; height: 14px;"></i> Teacher Exam Portal
+        </a>
+        <a href="/student-register.html" class="btn btn-primary btn-sm">Get Started</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="hero" style="padding: 5rem 0 4rem; background: radial-gradient(circle at top right, rgba(99, 102, 241, 0.08), transparent 50%), radial-gradient(circle at top left, rgba(124, 58, 237, 0.05), transparent 50%);">
+    <div class="container" style="text-align: center;">
+      <div class="badge badge-primary" style="margin-bottom: 1.5rem; padding: 0.4rem 1rem; font-size: 0.85rem;">
+        <i data-lucide="sparkles" style="width: 14px; height: 14px;"></i> Intelligent Learning Gap Detection
+      </div>
+      
+      <h1 style="font-size: 3.5rem; font-weight: 800; max-width: 860px; margin: 0 auto 1.25rem; line-height: 1.15; color: var(--navy-900);">
+        Every Wrong Answer Has a Reason.
+      </h1>
+
+      <p style="font-size: 1.25rem; color: var(--text-secondary); max-width: 680px; margin: 0 auto 2.5rem; line-height: 1.6;">
+        Discover learning gaps, understand difficult concepts, and follow a personalised learning path designed around your needs.
+      </p>
+
+      <div class="flex items-center justify-center gap-4" style="margin-bottom: 3.5rem;">
+        <a href="/student-register.html" class="btn btn-primary btn-lg">
+          <i data-lucide="play-circle" style="width: 20px; height: 20px;"></i> Start Learning Free
+        </a>
+        <a href="#features" class="btn btn-secondary btn-lg">
+          <i data-lucide="compass" style="width: 20px; height: 20px;"></i> Explore Features
+        </a>
+      </div>
+
+      <!-- Hero Dashboard Preview Mockup -->
+      <div class="card" style="max-width: 1040px; margin: 0 auto; padding: 1.5rem; border-radius: var(--radius-xl); box-shadow: var(--shadow-xl); background: #FFFFFF; border: 1px solid var(--border-color);">
+        <div style="background-color: #F8FAFC; border-radius: var(--radius-lg); padding: 1.5rem; border: 1px solid var(--border-color);">
+          <div class="flex items-center justify-between" style="margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 1rem;">
+            <div class="flex items-center gap-3">
+              <div style="width: 12px; height: 12px; border-radius: 50%; background: #EF4444;"></div>
+              <div style="width: 12px; height: 12px; border-radius: 50%; background: #F59E0B;"></div>
+              <div style="width: 12px; height: 12px; border-radius: 50%; background: #10B981;"></div>
+              <span style="font-size: 0.85rem; font-weight: 600; color: var(--text-secondary); margin-left: 0.5rem;">ConceptClear AI &bull; Interactive Diagnostic Canvas</span>
+            </div>
+            <span class="badge badge-mastered">Live AI Engine Active</span>
+          </div>
+
+          <div class="grid grid-3" style="gap: 1.25rem; text-align: left;">
+            <div class="card" style="padding: 1.25rem;">
+              <div style="font-size: 0.8rem; font-weight: 700; color: var(--text-secondary); text-transform: uppercase;">Diagnostic Mastery</div>
+              <div style="font-size: 2rem; font-weight: 800; color: var(--primary-blue); margin: 0.25rem 0;">76.4%</div>
+              <div class="badge badge-mastered">Demonstrated Understanding</div>
+            </div>
+
+            <div class="card" style="padding: 1.25rem;">
+              <div style="font-size: 0.8rem; font-weight: 700; color: var(--text-secondary); text-transform: uppercase;">Detected Learning Gap</div>
+              <div style="font-size: 1.15rem; font-weight: 800; color: var(--danger-red); margin: 0.5rem 0;">Fractions & Common Parts</div>
+              <div style="font-size: 0.8rem; color: var(--text-secondary);">Direct addition distractor identified</div>
+            </div>
+
+            <div class="card" style="padding: 1.25rem;">
+              <div style="font-size: 0.8rem; font-weight: 700; color: var(--text-secondary); text-transform: uppercase;">Adaptive Recommendation</div>
+              <div style="font-size: 1.15rem; font-weight: 800; color: var(--navy-900); margin: 0.5rem 0;">Visual Fraction Slicing</div>
+              <a href="/learn.html?concept=fractions" class="btn btn-outline-primary btn-sm" style="margin-top: 0.35rem;">Review Now</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Grid -->
+  <section id="features" style="padding: 5rem 0; background-color: #FFFFFF;">
+    <div class="container">
+      <div style="text-align: center; margin-bottom: 3.5rem;">
+        <h2 style="font-size: 2.25rem; font-weight: 800; color: var(--navy-900); margin-bottom: 0.75rem;">
+          Architected for Conceptual Mastery
+        </h2>
+        <p style="color: var(--text-secondary); font-size: 1.1rem; max-width: 600px; margin: 0 auto;">
+          Traditional tests tell you what is right or wrong. ConceptClear AI explains <em>why</em> you made the mistake and how to fix it.
+        </p>
+      </div>
+
+      <div class="grid grid-3" style="gap: 1.75rem;">
+        <!-- Feature 1 -->
+        <div class="card card-hover">
+          <div style="width: 48px; height: 48px; border-radius: var(--radius-md); background: var(--primary-blue-light); color: var(--primary-blue); display: flex; align-items: center; justify-content: center; margin-bottom: 1.25rem;">
+            <i data-lucide="target" style="width: 24px; height: 24px;"></i>
+          </div>
+          <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem;">AI Learning-Gap Detection</h3>
+          <p style="color: var(--text-secondary); font-size: 0.925rem; line-height: 1.6;">
+            Correlates distractor options with cognitive misconceptions such as adding denominators or sign inversions.
+          </p>
+        </div>
+
+        <!-- Feature 2 -->
+        <div class="card card-hover">
+          <div style="width: 48px; height: 48px; border-radius: var(--radius-md); background: var(--secondary-violet-light); color: var(--secondary-violet); display: flex; align-items: center; justify-content: center; margin-bottom: 1.25rem;">
+            <i data-lucide="bot" style="width: 24px; height: 24px;"></i>
+          </div>
+          <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem;">Personalised AI Tutor</h3>
+          <p style="color: var(--text-secondary); font-size: 0.925rem; line-height: 1.6;">
+            Conversational tutor that explains concepts using relatable real-life analogies and step-by-step worked solutions in English, Hindi, and Marathi.
+          </p>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="card card-hover">
+          <div style="width: 48px; height: 48px; border-radius: var(--radius-md); background: var(--accent-cyan-light); color: var(--accent-cyan); display: flex; align-items: center; justify-content: center; margin-bottom: 1.25rem;">
+            <i data-lucide="git-merge" style="width: 24px; height: 24px;"></i>
+          </div>
+          <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem;">Concept Dependency Map</h3>
+          <p style="color: var(--text-secondary); font-size: 0.925rem; line-height: 1.6;">
+            NetworkX-powered prerequisite graph illustrating how foundational arithmetic connects directly to quadratic equations.
+          </p>
+        </div>
+
+        <!-- Feature 4 -->
+        <div class="card card-hover">
+          <div style="width: 48px; height: 48px; border-radius: var(--radius-md); background: var(--warning-amber-light); color: var(--warning-amber); display: flex; align-items: center; justify-content: center; margin-bottom: 1.25rem;">
+            <i data-lucide="sliders" style="width: 24px; height: 24px;"></i>
+          </div>
+          <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem;">Adaptive Practice</h3>
+          <p style="color: var(--text-secondary); font-size: 0.925rem; line-height: 1.6;">
+            Bayesian Knowledge Tracing (BKT) calibrates difficulty automatically based on prior attempts and current estimated mastery.
+          </p>
+        </div>
+
+        <!-- Feature 5 -->
+        <div class="card card-hover">
+          <div style="width: 48px; height: 48px; border-radius: var(--radius-md); background: var(--danger-red-light); color: var(--danger-red); display: flex; align-items: center; justify-content: center; margin-bottom: 1.25rem;">
+            <i data-lucide="shield-alert" style="width: 24px; height: 24px;"></i>
+          </div>
+          <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem;">Tab-Switch Exam Proctoring</h3>
+          <p style="color: var(--text-secondary); font-size: 0.925rem; line-height: 1.6;">
+            Detects visibility changes and window focus loss during exams, generating instant warnings and transparent teacher audit trails.
+          </p>
+        </div>
+
+        <!-- Feature 6 -->
+        <div class="card card-hover">
+          <div style="width: 48px; height: 48px; border-radius: var(--radius-md); background: var(--success-green-light); color: var(--success-green); display: flex; align-items: center; justify-content: center; margin-bottom: 1.25rem;">
+            <i data-lucide="bar-chart-2" style="width: 24px; height: 24px;"></i>
+          </div>
+          <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem;">Teacher Analytics & Heatmaps</h3>
+          <p style="color: var(--text-secondary); font-size: 0.925rem; line-height: 1.6;">
+            Empowers educators to isolate classroom-wide misconceptions and identify struggling cohorts before final exams.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works Section -->
+  <section id="how-it-works" style="padding: 5rem 0; background-color: var(--bg-primary);">
+    <div class="container">
+      <div style="text-align: center; margin-bottom: 3.5rem;">
+        <span class="badge badge-primary" style="margin-bottom: 0.75rem;">Pedagogical Protocol</span>
+        <h2 style="font-size: 2.25rem; font-weight: 800; color: var(--navy-900);">
+          How ConceptClear AI Works
+        </h2>
+      </div>
+
+      <div class="grid grid-4" style="gap: 1.5rem;">
+        <div class="card" style="position: relative;">
+          <div style="font-size: 2.5rem; font-weight: 800; color: var(--border-color); line-height: 1; margin-bottom: 1rem;">01</div>
+          <h4 style="font-size: 1.15rem; margin-bottom: 0.5rem;">Attempt Diagnostic Quiz</h4>
+          <p style="color: var(--text-secondary); font-size: 0.875rem; line-height: 1.5;">
+            Take an adaptive multi-concept diagnostic quiz in mathematics.
+          </p>
+        </div>
+
+        <div class="card" style="position: relative;">
+          <div style="font-size: 2.5rem; font-weight: 800; color: var(--border-color); line-height: 1; margin-bottom: 1rem;">02</div>
+          <h4 style="font-size: 1.15rem; margin-bottom: 0.5rem;">Detect Conceptual Gaps</h4>
+          <p style="color: var(--text-secondary); font-size: 0.875rem; line-height: 1.5;">
+            Our cognitive detector identifies whether errors stem from prerequisite bottlenecks.
+          </p>
+        </div>
+
+        <div class="card" style="position: relative;">
+          <div style="font-size: 2.5rem; font-weight: 800; color: var(--border-color); line-height: 1; margin-bottom: 1rem;">03</div>
+          <h4 style="font-size: 1.15rem; margin-bottom: 0.5rem;">Targeted AI Lessons</h4>
+          <p style="color: var(--text-secondary); font-size: 0.875rem; line-height: 1.5;">
+            Receive custom explanations with step-by-step worked solutions in your preferred language.
+          </p>
+        </div>
+
+        <div class="card" style="position: relative;">
+          <div style="font-size: 2.5rem; font-weight: 800; color: var(--border-color); line-height: 1; margin-bottom: 1rem;">04</div>
+          <h4 style="font-size: 1.15rem; margin-bottom: 0.5rem;">Measure Mastery Growth</h4>
+          <p style="color: var(--text-secondary); font-size: 0.875rem; line-height: 1.5;">
+            Watch your concept map transform from red warning states to green verified mastery!
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Separate Student & Teacher CTAs -->
+  <section style="padding: 5rem 0; background-color: #FFFFFF;">
+    <div class="container">
+      <div class="grid grid-2" style="gap: 2rem;">
+        <!-- Student Box -->
+        <div id="for-students" class="card" style="background: linear-gradient(135deg, #EEF2FF, #E0E7FF); border-color: #C7D2FE; padding: 2.5rem;">
+          <div class="badge badge-primary" style="margin-bottom: 1rem;">For Students</div>
+          <h3 style="font-size: 1.85rem; font-weight: 800; color: var(--navy-900); margin-bottom: 0.75rem;">
+            Ready to Clear Your Doubts?
+          </h3>
+          <p style="color: var(--text-secondary); line-height: 1.6; margin-bottom: 2rem;">
+            Join students who understand concepts from first principles. Take diagnostic assessments and receive targeted revision paths.
+          </p>
+          <div class="flex items-center gap-3">
+            <a href="/student-register.html" class="btn btn-primary">Create Student Account</a>
+            <a href="/student-login.html" class="btn btn-secondary">Student Login</a>
+          </div>
+        </div>
+
+        <!-- Teacher Box -->
+        <div id="for-teachers" class="card" style="background: linear-gradient(135deg, #FAF5FF, #F3E8FF); border-color: #E9D5FF; padding: 2.5rem;">
+          <div class="badge" style="background: #F3E8FF; color: var(--secondary-violet); border: 1px solid #D8B4FE; margin-bottom: 1rem;">For Teachers & Institutions</div>
+          <h3 style="font-size: 1.85rem; font-weight: 800; color: var(--navy-900); margin-bottom: 0.75rem;">
+            Empower Your Classroom
+          </h3>
+          <p style="color: var(--text-secondary); line-height: 1.6; margin-bottom: 2rem;">
+            Schedule timed exams, track student participation, review tab-switch alert logs, and inspect classroom-wide concept gaps.
+          </p>
+          <div class="flex items-center gap-3">
+            <a href="/teacher-register.html" class="btn" style="background: var(--secondary-violet); color: white;">Register as Teacher</a>
+            <a href="/teacher-login.html" class="btn btn-secondary">Teacher Portal</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer style="background-color: var(--navy-900); color: #94A3B8; padding: 3.5rem 0 2rem; border-top: 1px solid #1E293B;">
+    <div class="container">
+      <div class="grid grid-4" style="gap: 2rem; margin-bottom: 3rem;">
+        <div>
+          <div class="brand-logo" style="color: #FFFFFF; margin-bottom: 1rem;">
+            <div class="brand-logo-icon"><i data-lucide="brain" style="width: 18px; height: 18px;"></i></div>
+            <span>ConceptClear AI</span>
+          </div>
+          <p style="font-size: 0.875rem; line-height: 1.6;">
+            "Understand the gap. Master the concept." Intelligent personalised learning through cognitive misconception detection.
+          </p>
+        </div>
+
+        <div>
+          <h5 style="color: #FFFFFF; margin-bottom: 1rem; font-size: 0.95rem;">Curriculum</h5>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.875rem;">
+            <li><a href="/learn.html?concept=basic-arithmetic" style="color: #94A3B8;">Basic Arithmetic</a></li>
+            <li><a href="/learn.html?concept=fractions" style="color: #94A3B8;">Fractions & Decimals</a></li>
+            <li><a href="/learn.html?concept=basic-algebra" style="color: #94A3B8;">Basic Algebra</a></li>
+            <li><a href="/learn.html?concept=linear-equations" style="color: #94A3B8;">Linear Equations</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h5 style="color: #FFFFFF; margin-bottom: 1rem; font-size: 0.95rem;">Portals</h5>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.875rem;">
+            <li><a href="/student-login.html" style="color: #94A3B8;">Student Portal</a></li>
+            <li><a href="/teacher-login.html" style="color: #94A3B8;">Teacher Portal</a></li>
+            <li><a href="/concept-map.html" style="color: #94A3B8;">Interactive Concept Map</a></li>
+            <li><a href="/analytics.html" style="color: #94A3B8;">Mastery Analytics</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h5 style="color: #FFFFFF; margin-bottom: 1rem; font-size: 0.95rem;">Hackathon Demo</h5>
+          <p style="font-size: 0.85rem; line-height: 1.5; margin-bottom: 0.75rem;">
+            Pre-configured dev credentials for judging:
+          </p>
+          <div style="font-size: 0.8rem; background: #1E293B; padding: 0.65rem; border-radius: var(--radius-sm); color: #E2E8F0;">
+            <strong>Teacher:</strong> teacher@conceptclear.ai (Teacher@123)<br/>
+            <strong>Student:</strong> student@conceptclear.ai (Student@123)
+          </div>
+        </div>
+      </div>
+
+      <div style="border-top: 1px solid #1E293B; padding-top: 1.5rem; display: flex; align-items: center; justify-content: space-between; font-size: 0.825rem;">
+        <div>&copy; 2026 ConceptClear AI. Built for Prometheus Hackathon. All rights reserved.</div>
+        <div class="flex items-center gap-4">
+          <a href="#" style="color: #94A3B8;">Privacy</a>
+          <a href="#" style="color: #94A3B8;">Terms</a>
+          <a href="#" style="color: #94A3B8;">Documentation</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/app.js"></script>
+</body>
+</html>

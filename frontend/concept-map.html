@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Concept Dependency Map — ConceptClear AI</title>
+  <meta name="description" content="Explore mathematics concepts as a connected prerequisite graph with live mastery color-coding and root-cause bottleneck detection.">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    .concept-canvas-container {
+      position: relative;
+      background: #FFFFFF;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-xl);
+      height: 620px;
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+    .node-group {
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+    .node-group:hover {
+      transform: scale(1.05);
+    }
+    .graph-link {
+      stroke: #CBD5E1;
+      stroke-width: 2.5;
+      stroke-dasharray: 6 4;
+      animation: linkFlow 20s linear infinite;
+    }
+    @keyframes linkFlow {
+      from { stroke-dashoffset: 100; }
+      to { stroke-dashoffset: 0; }
+    }
+    /* Detail Drawer Panel */
+    .concept-drawer {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 360px;
+      background: #FFFFFF;
+      border-left: 1px solid var(--border-color);
+      box-shadow: var(--shadow-xl);
+      transform: translateX(100%);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 50;
+      display: flex;
+      flex-direction: column;
+      padding: 1.5rem;
+    }
+    .concept-drawer.open {
+      transform: translateX(0);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="dashboard-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <a href="/" class="sidebar-brand">
+          <div class="sidebar-brand-icon"><i data-lucide="brain" style="width: 18px; height: 18px;"></i></div>
+          <span>ConceptClear AI</span>
+        </a>
+      </div>
+
+      <ul class="sidebar-menu">
+        <li>
+          <a href="/student-dashboard.html" class="sidebar-item-link">
+            <i data-lucide="layout-dashboard" style="width: 18px; height: 18px;"></i>
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <li>
+          <a href="/learn.html" class="sidebar-item-link">
+            <i data-lucide="book-open" style="width: 18px; height: 18px;"></i>
+            <span>My Learning</span>
+          </a>
+        </li>
+        <li>
+          <a href="/tests.html" class="sidebar-item-link">
+            <i data-lucide="file-text" style="width: 18px; height: 18px;"></i>
+            <span>Take a Test</span>
+          </a>
+        </li>
+        <li>
+          <a href="/concept-map.html" class="sidebar-item-link active">
+            <i data-lucide="network" style="width: 18px; height: 18px;"></i>
+            <span>Concept Map</span>
+          </a>
+        </li>
+        <li>
+          <a href="/analytics.html" class="sidebar-item-link">
+            <i data-lucide="line-chart" style="width: 18px; height: 18px;"></i>
+            <span>My Progress</span>
+          </a>
+        </li>
+        <li>
+          <a href="/profile.html" class="sidebar-item-link">
+            <i data-lucide="user" style="width: 18px; height: 18px;"></i>
+            <span>Profile</span>
+          </a>
+        </li>
+        <li style="margin-top: auto;">
+          <a href="#" class="sidebar-item-link" onclick="logout(); return false;" style="color: #F87171;">
+            <i data-lucide="log-out" style="width: 18px; height: 18px;"></i>
+            <span>Logout</span>
+          </a>
+        </li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main-wrapper">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="mobile-menu-btn" aria-label="Toggle navigation"><i data-lucide="menu"></i></button>
+          <div class="topbar-greeting">
+            <h2>Prerequisite Concept Dependency Graph 🗺️</h2>
+            <p id="map-subtitle-text">Connected learning pathways from basic foundations to advanced algebra</p>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <!-- Subject Switcher -->
+          <div class="flex items-center gap-2" style="margin-right: 0.5rem;">
+            <span style="font-size: 0.85rem; font-weight: 700; color: var(--navy-900);">Subject:</span>
+            <select id="global-subject-selector" class="global-subject-selector lang-picker-select" style="font-weight: 700; min-width: 155px; border-color: var(--primary-blue); background: #FFFFFF;">
+              <option value="Mathematics">📐 Mathematics</option>
+              <option value="Physics">⚡ Physics</option>
+              <option value="Computer Science">💻 Computer Science</option>
+            </select>
+          </div>
+
+          <!-- Mode Switcher (Student Personal vs Teacher Aggregate) -->
+          <div class="flex items-center gap-2">
+            <button id="btn-toggle-view-mode" class="btn btn-secondary btn-sm" onclick="toggleClassroomMode()">
+              <i data-lucide="users" style="width: 14px; height: 14px;"></i> Switch to Classroom Aggregate
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <main class="dashboard-content">
+        <!-- Legend Strip -->
+        <div class="card" style="padding: 0.75rem 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+          <div style="font-weight: 700; font-size: 0.875rem; color: var(--navy-900);">Map Legend:</div>
+          <div class="flex items-center gap-4" style="font-size: 0.825rem;">
+            <div class="flex items-center gap-2">
+              <span class="status-dot dot-green"></span>
+              <span><strong>Green:</strong> Mastered (&ge; 75%)</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="status-dot dot-amber"></span>
+              <span><strong>Amber:</strong> Needs Practice (40% - 74%)</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="status-dot dot-red"></span>
+              <span><strong>Red:</strong> Learning Gap (&lt; 40%)</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="status-dot dot-grey"></span>
+              <span><strong>Grey:</strong> Not Assessed Yet</span>
+            </div>
+          </div>
+          <span style="font-size: 0.8rem; color: var(--text-secondary);">&bull; Click any concept node for details</span>
+        </div>
+
+        <!-- Interactive SVG Graph Canvas -->
+        <div class="concept-canvas-container">
+          <svg id="concept-map-svg" width="100%" height="100%" viewBox="0 0 950 450">
+            <!-- Definitions for Arrowheads -->
+            <defs>
+              <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="24" refY="3" orient="auto">
+                <polygon points="0 0, 8 3, 0 6" fill="#94A3B8" />
+              </marker>
+            </defs>
+
+            <!-- Links Layer -->
+            <g id="svg-links-layer"></g>
+
+            <!-- Nodes Layer -->
+            <g id="svg-nodes-layer"></g>
+          </svg>
+
+          <!-- Node Detail Side Drawer -->
+          <div id="node-detail-drawer" class="concept-drawer">
+            <div class="flex items-center justify-between" style="margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border-color);">
+              <span id="drawer-category-pill" class="badge badge-primary">Foundations</span>
+              <button class="btn btn-secondary btn-sm" onclick="closeDrawer()" style="border: none; padding: 0.25rem;"><i data-lucide="x"></i></button>
+            </div>
+
+            <div style="flex: 1; overflow-y: auto;">
+              <h3 id="drawer-concept-title" style="font-size: 1.35rem; font-weight: 800; color: var(--navy-900); margin-bottom: 0.5rem;">
+                Concept Details
+              </h3>
+              <p id="drawer-concept-desc" style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 1.5rem;">
+                Select a concept node to view its prerequisite requirements and learning resources.
+              </p>
+
+              <!-- Mastery Score Meter -->
+              <div style="background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1rem; margin-bottom: 1.5rem;">
+                <div class="flex items-center justify-between" style="margin-bottom: 0.4rem;">
+                  <span style="font-size: 0.8rem; font-weight: 600; color: var(--text-secondary);">Estimated Mastery</span>
+                  <span id="drawer-mastery-val" style="font-size: 1.15rem; font-weight: 800; color: var(--primary-blue);">0%</span>
+                </div>
+                <div style="height: 8px; background: #E2E8F0; border-radius: 4px; overflow: hidden;">
+                  <div id="drawer-mastery-bar" style="height: 100%; width: 0%; background: var(--primary-blue); transition: width 0.4s ease;"></div>
+                </div>
+              </div>
+
+              <!-- Prerequisites Section -->
+              <div style="margin-bottom: 1.5rem;">
+                <h4 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--navy-900);">Prerequisites</h4>
+                <div id="drawer-prereqs-list" style="display: flex; flex-direction: column; gap: 0.5rem;">
+                  <!-- Injected via JS -->
+                </div>
+              </div>
+            </div>
+
+            <!-- Jump to Lesson Button -->
+            <div style="border-top: 1px solid var(--border-color); padding-top: 1rem;">
+              <a id="drawer-lesson-btn" href="/learn.html" class="btn btn-primary" style="width: 100%;">
+                <i data-lucide="book-open" style="width: 16px; height: 16px;"></i> Jump to Lesson & Practice
+              </a>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="/js/app.js"></script>
+  <script>
+    window.__handlesSubjectChange = true;
+    let isClassroomMode = false;
+    let graphData = null;
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('mode') === 'classroom') {
+        isClassroomMode = true;
+      }
+      window.addEventListener('conceptclear_subject_changed', () => {
+        loadGraph();
+      });
+      await loadGraph();
+    });
+
+    async function loadGraph() {
+      const subj = getActiveSubject();
+      const endpoint = isClassroomMode ? '/concepts/classroom-map' : `/concepts/map?subject=${encodeURIComponent(subj)}`;
+      try {
+        graphData = await fetchWithAuth(endpoint);
+        renderGraph(graphData);
+
+        const subEl = document.getElementById('map-subtitle-text');
+        const btnMode = document.getElementById('btn-toggle-view-mode');
+        if (isClassroomMode) {
+          subEl.textContent = 'Aggregated classroom mastery across all registered students';
+          btnMode.innerHTML = '<i data-lucide="user" style="width: 14px; height: 14px;"></i> Switch to My Personal Map';
+        } else {
+          subEl.textContent = 'Connected learning pathways reflecting your personal mastery';
+          btnMode.innerHTML = '<i data-lucide="users" style="width: 14px; height: 14px;"></i> Switch to Classroom Aggregate';
+        }
+        renderLucideIcons();
+      } catch (err) {
+        showToast('Failed to load concept graph: ' + err.message, 'error');
+      }
+    }
+
+    function toggleClassroomMode() {
+      isClassroomMode = !isClassroomMode;
+      loadGraph();
+    }
+
+    function renderGraph(data) {
+      const linksLayer = document.getElementById('svg-links-layer');
+      const nodesLayer = document.getElementById('svg-nodes-layer');
+      linksLayer.innerHTML = '';
+      nodesLayer.innerHTML = '';
+
+      const nodeMap = {};
+      data.nodes.forEach(n => { nodeMap[n.id] = n; });
+
+      // Render Links
+      data.links.forEach(l => {
+        const source = nodeMap[l.source];
+        const target = nodeMap[l.target];
+        if (!source || !target) return;
+
+        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        line.setAttribute('x1', source.x);
+        line.setAttribute('y1', source.y);
+        line.setAttribute('x2', target.x);
+        line.setAttribute('y2', target.y);
+        line.setAttribute('class', 'graph-link');
+        line.setAttribute('marker-end', 'url(#arrowhead)');
+        linksLayer.appendChild(line);
+      });
+
+      // Render Nodes
+      data.nodes.forEach(n => {
+        const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        g.setAttribute('class', 'node-group');
+        g.setAttribute('transform', `translate(${n.x}, ${n.y})`);
+        g.onclick = () => openDrawer(n);
+
+        // Outer Glow/Border Circle
+        const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        circle.setAttribute('r', '26');
+        circle.setAttribute('fill', '#FFFFFF');
+        circle.setAttribute('stroke', n.color);
+        circle.setAttribute('stroke-width', '5');
+        circle.setAttribute('filter', 'drop-shadow(0 4px 6px rgba(0,0,0,0.1))');
+
+        // Inner Percentage Text
+        const pctText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        pctText.setAttribute('text-anchor', 'middle');
+        pctText.setAttribute('dy', '5');
+        pctText.setAttribute('font-family', 'Plus Jakarta Sans');
+        pctText.setAttribute('font-weight', '800');
+        pctText.setAttribute('font-size', '12');
+        pctText.setAttribute('fill', '#0F172A');
+        pctText.textContent = `${Math.round(n.mastery)}%`;
+
+        // Concept Name Label Below
+        const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        label.setAttribute('text-anchor', 'middle');
+        label.setAttribute('dy', '45');
+        label.setAttribute('font-family', 'Inter');
+        label.setAttribute('font-weight', '600');
+        label.setAttribute('font-size', '12');
+        label.setAttribute('fill', '#1E293B');
+        label.textContent = n.name;
+
+        g.appendChild(circle);
+        g.appendChild(pctText);
+        g.appendChild(label);
+        nodesLayer.appendChild(g);
+      });
+    }
+
+    function openDrawer(node) {
+      const drawer = document.getElementById('node-detail-drawer');
+      document.getElementById('drawer-category-pill').textContent = node.category;
+      document.getElementById('drawer-concept-title').textContent = node.name;
+      document.getElementById('drawer-concept-desc').textContent = node.description;
+      document.getElementById('drawer-mastery-val').textContent = `${node.mastery}%`;
+      
+      const bar = document.getElementById('drawer-mastery-bar');
+      bar.style.width = `${node.mastery}%`;
+      bar.style.backgroundColor = node.color;
+
+      const prereqsList = document.getElementById('drawer-prereqs-list');
+      if (node.prerequisites && node.prerequisites.length > 0) {
+        prereqsList.innerHTML = node.prerequisites.map(p => `
+          <div style="background: var(--bg-primary); padding: 0.5rem 0.75rem; border-radius: 6px; font-size: 0.85rem; font-weight: 600; color: var(--navy-900);">
+            &bull; ${p.replace('-', ' ').toUpperCase()}
+          </div>
+        `).join('');
+      } else {
+        prereqsList.innerHTML = '<span style="font-size: 0.85rem; color: var(--text-secondary);">None (Foundational Concept)</span>';
+      }
+
+      document.getElementById('drawer-lesson-btn').href = `/learn.html?concept=${node.id}`;
+      drawer.classList.add('open');
+      renderLucideIcons();
+    }
+
+    function closeDrawer() {
+      document.getElementById('node-detail-drawer').classList.remove('open');
+    }
+  </script>
+</body>
+</html>

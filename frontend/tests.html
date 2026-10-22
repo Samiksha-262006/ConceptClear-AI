@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Examinations & Benchmarks — ConceptClear AI</title>
+  <meta name="description" content="View upcoming tests, launch active diagnostic exams, and review completed performance with conceptual gap analysis.">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    .test-tabs-bar {
+      display: flex;
+      gap: 1rem;
+      border-bottom: 2px solid var(--border-color);
+      margin-bottom: 2rem;
+    }
+    .test-nav-tab {
+      padding: 0.85rem 1.25rem;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      background: none;
+      border: none;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      margin-bottom: -2px;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all var(--transition-fast);
+    }
+    .test-nav-tab:hover {
+      color: var(--primary-blue);
+    }
+    .test-nav-tab.active {
+      color: var(--primary-blue);
+      border-bottom-color: var(--primary-blue);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="dashboard-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <a href="/student-dashboard.html" class="sidebar-brand">
+          <div class="sidebar-brand-icon"><i data-lucide="brain" style="width: 18px; height: 18px;"></i></div>
+          <span>ConceptClear AI</span>
+        </a>
+      </div>
+
+      <ul class="sidebar-menu">
+        <li>
+          <a href="/student-dashboard.html" class="sidebar-item-link">
+            <i data-lucide="layout-dashboard" style="width: 18px; height: 18px;"></i>
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <li>
+          <a href="/learn.html" class="sidebar-item-link">
+            <i data-lucide="book-open" style="width: 18px; height: 18px;"></i>
+            <span>My Learning</span>
+          </a>
+        </li>
+        <li>
+          <a href="/tests.html" class="sidebar-item-link active">
+            <i data-lucide="file-text" style="width: 18px; height: 18px;"></i>
+            <span>Take a Test</span>
+          </a>
+        </li>
+        <li>
+          <a href="/concept-map.html" class="sidebar-item-link">
+            <i data-lucide="network" style="width: 18px; height: 18px;"></i>
+            <span>Concept Map</span>
+          </a>
+        </li>
+        <li>
+          <a href="/analytics.html" class="sidebar-item-link">
+            <i data-lucide="line-chart" style="width: 18px; height: 18px;"></i>
+            <span>My Progress</span>
+          </a>
+        </li>
+        <li>
+          <a href="/profile.html" class="sidebar-item-link">
+            <i data-lucide="user" style="width: 18px; height: 18px;"></i>
+            <span>Profile</span>
+          </a>
+        </li>
+        <li style="margin-top: auto;">
+          <a href="#" class="sidebar-item-link" onclick="logout(); return false;" style="color: #F87171;">
+            <i data-lucide="log-out" style="width: 18px; height: 18px;"></i>
+            <span>Logout</span>
+          </a>
+        </li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main-wrapper">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="mobile-menu-btn" aria-label="Toggle navigation"><i data-lucide="menu"></i></button>
+          <div class="topbar-greeting">
+            <h2>Examination & Benchmark Portal 📝</h2>
+            <p>Server-timed assessments equipped with cognitive misconception tracking</p>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <div class="flex items-center gap-2" style="margin-right: 0.75rem;">
+            <span style="font-size: 0.85rem; font-weight: 700; color: var(--navy-900);">Subject:</span>
+            <select id="global-subject-selector" class="global-subject-selector lang-picker-select" style="font-weight: 700; min-width: 155px; border-color: var(--primary-blue); background: #FFFFFF;">
+              <option value="Mathematics">📐 Mathematics</option>
+              <option value="Physics">⚡ Physics</option>
+              <option value="Computer Science">💻 Computer Science</option>
+            </select>
+          </div>
+          <a href="/student-dashboard.html" class="btn btn-secondary btn-sm">
+            <i data-lucide="arrow-left" style="width: 14px; height: 14px;"></i> Return to Dashboard
+          </a>
+        </div>
+      </header>
+
+      <main class="dashboard-content">
+        <!-- Proctoring Notice Banner -->
+        <div class="card" style="background: linear-gradient(135deg, #1E1B4B 0%, var(--navy-900) 100%); color: #FFFFFF; padding: 1.5rem; display: flex; align-items: center; justify-content: space-between;">
+          <div class="flex items-center gap-3">
+            <div style="width: 44px; height: 44px; border-radius: var(--radius-md); background: rgba(255, 255, 255, 0.15); display: flex; align-items: center; justify-content: center; color: #67E8F9; flex-shrink: 0;">
+              <i data-lucide="shield-check" style="width: 24px; height: 24px;"></i>
+            </div>
+            <div>
+              <div style="font-weight: 800; font-size: 1.05rem; margin-bottom: 0.25rem;">Live Test Monitoring Active</div>
+              <p style="font-size: 0.85rem; color: #CBD5E1; max-width: 650px; line-height: 1.5;">
+                When attempting teacher-scheduled exams, tab-switching and window-blur events are recorded using the Page Visibility API. Please stay focused on the examination tab.
+              </p>
+            </div>
+          </div>
+          <span class="badge" style="background: rgba(16, 185, 129, 0.2); color: #34D399; border: 1px solid rgba(16, 185, 129, 0.4);">
+            Proctoring Ready
+          </span>
+        </div>
+
+        <!-- 3 Tabs: Upcoming, Available, Completed -->
+        <div>
+          <div class="test-tabs-bar">
+            <button class="test-nav-tab active" data-tab="available">
+              <i data-lucide="play-circle" style="width: 18px; height: 18px;"></i> Available Tests
+            </button>
+            <button class="test-nav-tab" data-tab="upcoming">
+              <i data-lucide="calendar" style="width: 18px; height: 18px;"></i> Upcoming Tests
+            </button>
+            <button class="test-nav-tab" data-tab="completed">
+              <i data-lucide="check-circle" style="width: 18px; height: 18px;"></i> Completed Tests
+            </button>
+          </div>
+
+          <!-- Dynamic Tab Content Viewport -->
+          <div id="tests-tab-viewport">
+            <div style="text-align: center; padding: 3rem; color: var(--text-secondary);">
+              Loading examinations...
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Review Past Attempt Modal -->
+  <div id="review-modal" class="modal-overlay">
+    <div class="modal-card" style="max-width: 680px;">
+      <div class="modal-header">
+        <h3 id="review-modal-title" style="font-size: 1.15rem; font-weight: 800; color: var(--navy-900);">Examination Review</h3>
+        <button class="btn btn-secondary btn-sm" onclick="document.getElementById('review-modal').classList.remove('active')"><i data-lucide="x"></i></button>
+      </div>
+      <div id="review-modal-body" class="modal-body">
+        Loading review...
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="document.getElementById('review-modal').classList.remove('active')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/app.js"></script>
+  <script src="/js/tests.js"></script>
+</body>
+</html>

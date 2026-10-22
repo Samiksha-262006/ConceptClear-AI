@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teacher Dashboard — ConceptClear AI</title>
+  <meta name="description" content="Instructor control room for test management, proctoring violation audits, and classroom learning-gap matrices.">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <div class="dashboard-layout">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <a href="/teacher-dashboard.html" class="sidebar-brand">
+          <div class="sidebar-brand-icon" style="background: linear-gradient(135deg, var(--secondary-violet), var(--accent-cyan));">
+            <i data-lucide="graduation-cap" style="width: 18px; height: 18px;"></i>
+          </div>
+          <span>ConceptClear AI</span>
+        </a>
+      </div>
+
+      <ul class="sidebar-menu">
+        <li>
+          <a href="/teacher-dashboard.html" class="sidebar-item-link active">
+            <i data-lucide="layout-dashboard" style="width: 18px; height: 18px;"></i>
+            <span>Overview</span>
+          </a>
+        </li>
+        <li>
+          <a href="#scheduled-tests-section" class="sidebar-item-link">
+            <i data-lucide="calendar" style="width: 18px; height: 18px;"></i>
+            <span>Manage Tests</span>
+          </a>
+        </li>
+        <li>
+          <a href="/concept-map.html?mode=classroom" class="sidebar-item-link">
+            <i data-lucide="network" style="width: 18px; height: 18px;"></i>
+            <span>Classroom Concept Map</span>
+          </a>
+        </li>
+        <li>
+          <a href="#intervention-section" class="sidebar-item-link">
+            <i data-lucide="alert-octagon" style="width: 18px; height: 18px;"></i>
+            <span>Learning-Gap Analytics</span>
+          </a>
+        </li>
+        <li>
+          <a href="/profile.html" class="sidebar-item-link">
+            <i data-lucide="user" style="width: 18px; height: 18px;"></i>
+            <span>Faculty Profile</span>
+          </a>
+        </li>
+        <li style="margin-top: auto;">
+          <a href="#" class="sidebar-item-link" onclick="logout(); return false;" style="color: #F87171;">
+            <i data-lucide="log-out" style="width: 18px; height: 18px;"></i>
+            <span>Logout</span>
+          </a>
+        </li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <div class="user-mini-profile">
+          <div id="teacher-avatar-letter" class="avatar-circle" style="background: var(--secondary-violet);">T</div>
+          <div class="user-mini-info">
+            <div id="teacher-display-name" class="user-mini-name">Dr. Sarah Jenkins</div>
+            <div id="teacher-display-school" class="user-mini-role">Mathematics Dept</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main-wrapper">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="mobile-menu-btn" aria-label="Toggle navigation"><i data-lucide="menu"></i></button>
+          <div class="topbar-greeting">
+            <h2>Faculty Administration Console 🎓</h2>
+            <p>Cohort Diagnostics &bull; Examination Proctoring &bull; Prerequisite Gap Detection</p>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <!-- Subject Switcher -->
+          <div class="flex items-center gap-2" style="margin-right: 0.75rem;">
+            <span style="font-size: 0.85rem; font-weight: 700; color: var(--navy-900);">Subject:</span>
+            <select id="global-subject-selector" class="global-subject-selector lang-picker-select" style="font-weight: 700; min-width: 155px; border-color: var(--primary-blue); background: #FFFFFF;">
+              <option value="Mathematics">📐 Mathematics</option>
+              <option value="Physics">⚡ Physics</option>
+              <option value="Computer Science">💻 Computer Science</option>
+            </select>
+          </div>
+
+          <button id="btn-open-create-test" class="btn btn-primary btn-sm">
+            <i data-lucide="plus-circle" style="width: 16px; height: 16px;"></i> Schedule New Test
+          </button>
+        </div>
+      </header>
+
+      <!-- Dashboard Viewport -->
+      <main class="dashboard-content">
+        <!-- 4 KPI Stat Cards -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div>
+              <div class="stat-label">Total Enrolled Students</div>
+              <div id="val-total-students" class="stat-value">--</div>
+              <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.2rem;">Class 10 Active Cohort</div>
+            </div>
+            <div class="stat-icon-wrap stat-icon-blue"><i data-lucide="users"></i></div>
+          </div>
+
+          <div class="stat-card">
+            <div>
+              <div class="stat-label">Examinations Scheduled</div>
+              <div id="val-tests-scheduled" class="stat-value">--</div>
+              <div style="font-size: 0.75rem; color: var(--secondary-violet); font-weight: 600; margin-top: 0.2rem;">Time-gated Tests</div>
+            </div>
+            <div class="stat-icon-wrap stat-icon-violet"><i data-lucide="calendar"></i></div>
+          </div>
+
+          <div class="stat-card">
+            <div>
+              <div class="stat-label">Submissions Evaluated</div>
+              <div id="val-tests-completed" class="stat-value">--</div>
+              <div style="font-size: 0.75rem; color: var(--success-green); font-weight: 600; margin-top: 0.2rem;">Server-side Graded</div>
+            </div>
+            <div class="stat-icon-wrap stat-icon-green"><i data-lucide="check-square"></i></div>
+          </div>
+
+          <div class="stat-card">
+            <div>
+              <div class="stat-label">Class Average Performance</div>
+              <div id="val-class-avg" class="stat-value">--%</div>
+              <div style="font-size: 0.75rem; color: var(--primary-blue); font-weight: 600; margin-top: 0.2rem;">Cohort Accuracy</div>
+            </div>
+            <div class="stat-icon-wrap stat-icon-amber"><i data-lucide="trending-up"></i></div>
+          </div>
+        </div>
+
+        <!-- Row 2: Concepts Requiring Attention + Common Misconceptions Histogram -->
+        <div class="grid grid-2" style="gap: 1.5rem;">
+          <!-- Attention Concepts -->
+          <div class="card">
+            <div class="flex items-center justify-between" style="margin-bottom: 1rem;">
+              <div class="flex items-center gap-2">
+                <i data-lucide="alert-triangle" style="color: var(--danger-red); width: 20px; height: 20px;"></i>
+                <h3 style="font-size: 1.15rem; font-weight: 800;">Concepts Requiring Classroom Attention</h3>
+              </div>
+              <span class="badge badge-gap">Priority Gaps</span>
+            </div>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">
+              Topics where student mastery falls below 55% or multiple prerequisite blockers are diagnosed:
+            </p>
+            <div id="attention-concepts-list" class="flex flex-col gap-2">
+              <div style="padding: 1rem; color: var(--text-secondary); font-size: 0.85rem;">Aggregating classroom diagnostics...</div>
+            </div>
+          </div>
+
+          <!-- Prevalent Misconceptions -->
+          <div class="card">
+            <div class="flex items-center justify-between" style="margin-bottom: 1rem;">
+              <div class="flex items-center gap-2">
+                <i data-lucide="layers" style="color: var(--primary-blue); width: 20px; height: 20px;"></i>
+                <h3 style="font-size: 1.15rem; font-weight: 800;">Most Common Classroom Misconceptions</h3>
+              </div>
+              <span class="badge badge-primary">Distractor Audit</span>
+            </div>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">
+              Recurring cognitive error patterns captured across diagnostic quizzes:
+            </p>
+            <div id="top-misconceptions-list">
+              <div style="padding: 1rem; color: var(--text-secondary); font-size: 0.85rem;">Analyzing distractor logs...</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Row 3: Struggling Students Intervention Table -->
+        <div id="intervention-section" class="card">
+          <div class="flex items-center justify-between" style="margin-bottom: 1.25rem;">
+            <div>
+              <h3 style="font-size: 1.25rem; font-weight: 800; color: var(--navy-900);">Students Needing Additional Support</h3>
+              <p style="font-size: 0.85rem; color: var(--text-secondary);">Students with multiple conceptual gaps or flagged focus violations during tests</p>
+            </div>
+            <a href="/concept-map.html?mode=classroom" class="btn btn-secondary btn-sm">
+              <i data-lucide="network" style="width: 14px; height: 14px;"></i> View Classroom Map
+            </a>
+          </div>
+
+          <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
+              <thead>
+                <tr style="border-bottom: 2px solid var(--border-color); text-align: left; color: var(--text-secondary);">
+                  <th style="padding: 0.75rem 0.5rem;">Student Name</th>
+                  <th style="padding: 0.75rem 0.5rem;">Class</th>
+                  <th style="padding: 0.75rem 0.5rem;">Avg. Mastery</th>
+                  <th style="padding: 0.75rem 0.5rem;">Primary Learning Issue</th>
+                  <th style="padding: 0.75rem 0.5rem;">Proctoring Status</th>
+                </tr>
+              </thead>
+              <tbody id="struggling-students-table">
+                <tr><td colspan="5" style="padding: 1rem; text-align: center; color: var(--text-secondary);">Loading student records...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Row 4: Scheduled Tests & Exam Management -->
+        <div id="scheduled-tests-section" class="card">
+          <div class="flex items-center justify-between" style="margin-bottom: 1.25rem;">
+            <div>
+              <h3 style="font-size: 1.25rem; font-weight: 800; color: var(--navy-900);">Manage Scheduled Examinations</h3>
+              <p style="font-size: 0.85rem; color: var(--text-secondary);">Create, edit, proctor, and export test results as CSV</p>
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="document.getElementById('btn-open-create-test').click()">
+              <i data-lucide="plus" style="width: 14px; height: 14px;"></i> Schedule Test
+            </button>
+          </div>
+
+          <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
+              <thead>
+                <tr style="border-bottom: 2px solid var(--border-color); text-align: left; color: var(--text-secondary);">
+                  <th style="padding: 0.75rem 0.5rem;">Exam Title</th>
+                  <th style="padding: 0.75rem 0.5rem;">Duration</th>
+                  <th style="padding: 0.75rem 0.5rem;">Total Marks</th>
+                  <th style="padding: 0.75rem 0.5rem;">Status</th>
+                  <th style="padding: 0.75rem 0.5rem;">Participation</th>
+                  <th style="padding: 0.75rem 0.5rem;">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="teacher-tests-table-body">
+                <tr><td colspan="6" style="padding: 1.5rem; text-align: center; color: var(--text-secondary);">Loading examinations...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Create Test Modal -->
+  <div id="create-test-modal" class="modal-overlay">
+    <div class="modal-card" style="max-width: 640px;">
+      <div class="modal-header">
+        <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--navy-900);">Schedule New Examination</h3>
+        <button id="btn-close-create-test" class="btn btn-secondary btn-sm" style="border: none; padding: 0.35rem;"><i data-lucide="x"></i></button>
+      </div>
+
+      <form id="create-test-form">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label" for="test-title">Examination Title</label>
+            <input type="text" id="test-title" class="form-input" placeholder="e.g. Algebra & Fractions Diagnostic Benchmark" required>
+          </div>
+
+          <div class="grid grid-2" style="gap: 1rem;">
+            <div class="form-group">
+              <label class="form-label" for="test-subject">Subject</label>
+              <select id="test-subject" class="form-select">
+                <option value="Mathematics" selected>Mathematics</option>
+                <option value="Physics">Physics</option>
+                <option value="Computer Science">Computer Science</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="test-target-class">Target Class</label>
+              <select id="test-target-class" class="form-select">
+                <option value="Class 10" selected>Class 10</option>
+                <option value="Class 9">Class 9</option>
+                <option value="Class 11">Class 11</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid grid-3" style="gap: 1rem;">
+            <div class="form-group">
+              <label class="form-label" for="test-duration">Duration (Minutes)</label>
+              <input type="number" id="test-duration" class="form-input" value="30" min="5" max="180" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="test-total-marks">Total Marks</label>
+              <input type="number" id="test-total-marks" class="form-input" value="10" min="1" max="100" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="test-negative-marks">Negative Marking</label>
+              <input type="number" id="test-negative-marks" class="form-input" value="0.25" step="0.25" min="0">
+            </div>
+          </div>
+
+          <div class="grid grid-2" style="gap: 1rem;">
+            <div class="form-group">
+              <label class="form-label" for="test-start-time">Availability Start Time</label>
+              <input type="datetime-local" id="test-start-time" class="form-input" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="test-end-time">Availability Deadline</label>
+              <input type="datetime-local" id="test-end-time" class="form-input" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="test-instructions">Instructions for Students</label>
+            <textarea id="test-instructions" class="form-input" rows="2" placeholder="e.g. Test monitoring is active. Do not switch tabs. Calculator not permitted."></textarea>
+          </div>
+
+          <div style="background-color: var(--primary-blue-light); border: 1px solid #C7D2FE; border-radius: var(--radius-md); padding: 1rem; margin-bottom: 0.75rem;">
+            <label style="display: flex; align-items: center; gap: 0.65rem; font-weight: 700; color: var(--navy-900); cursor: pointer; margin-bottom: 0.5rem;">
+              <input type="checkbox" id="test-enable-proctoring" checked>
+              <span>Enable Tab-Switch & Focus Proctoring Alert System</span>
+            </label>
+            <div class="flex items-center gap-3" style="font-size: 0.85rem; color: var(--text-secondary);">
+              <span>Violation Flag Threshold:</span>
+              <input type="number" id="test-proctor-threshold" class="form-input" value="3" min="1" max="10" style="width: 70px; padding: 0.35rem;">
+              <span>switches before test is flagged</span>
+            </div>
+          </div>
+
+          <!-- Formal Exam Mistake Withholding Setting -->
+          <div style="background-color: #FEF3C7; border: 1px solid #FDE68A; border-radius: var(--radius-md); padding: 0.85rem 1rem;">
+            <label style="display: flex; align-items: center; gap: 0.65rem; font-weight: 700; color: #92400E; cursor: pointer; margin-bottom: 0.25rem;">
+              <input type="checkbox" id="test-release-results">
+              <span>Release Detailed Mistakes & Solution Keys to Students</span>
+            </label>
+            <span style="font-size: 0.775rem; color: #78350F; display: block; margin-left: 1.6rem;">
+              Leave unchecked for formal examinations so individual question mistakes and answer keys are strictly withheld.
+            </span>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="document.getElementById('create-test-modal').classList.remove('active')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Schedule Examination</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Audit Modal -->
+  <div id="audit-modal" class="modal-overlay">
+    <div class="modal-card" style="max-width: 780px;">
+      <div class="modal-header">
+        <h3 id="audit-modal-title" style="font-size: 1.15rem; font-weight: 800; color: var(--navy-900);">Examination Audit</h3>
+        <button class="btn btn-secondary btn-sm" onclick="document.getElementById('audit-modal').classList.remove('active')"><i data-lucide="x"></i></button>
+      </div>
+      <div id="audit-modal-body" class="modal-body">
+        Loading audit...
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="document.getElementById('audit-modal').classList.remove('active')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/app.js"></script>
+  <script src="/js/teacher.js"></script>
+</body>
+</html>

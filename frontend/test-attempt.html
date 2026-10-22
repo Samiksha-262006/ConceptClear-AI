@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Examination in Progress — ConceptClear AI</title>
+  <meta name="description" content="Secure live examination environment with server-side time gates, real-time autosave, and tab-switch alert monitoring.">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/test.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="exam-viewport">
+
+  <!-- Sticky Exam Header -->
+  <header class="exam-header">
+    <div class="exam-header-left">
+      <div style="width: 32px; height: 32px; border-radius: 8px; background: linear-gradient(135deg, var(--primary-blue), var(--secondary-violet)); color: white; display: flex; align-items: center; justify-content: center;">
+        <i data-lucide="brain" style="width: 18px; height: 18px;"></i>
+      </div>
+      <div id="exam-title-display" class="exam-title-badge">Examination in Progress</div>
+    </div>
+
+    <!-- Live Timer Display -->
+    <div class="exam-timer-box">
+      <i data-lucide="clock" style="width: 18px; height: 18px; color: #67E8F9;"></i>
+      <span id="exam-timer-display">--:--:--</span>
+    </div>
+
+    <div>
+      <button class="btn btn-primary btn-sm" onclick="openSubmitConfirmModal()">
+        <i data-lucide="check" style="width: 14px; height: 14px;"></i> Submit Examination
+      </button>
+    </div>
+  </header>
+
+  <!-- Live Proctoring Status Banner -->
+  <div class="proctoring-banner">
+    <div class="proctor-tag-active">
+      <span class="live-dot"></span>
+      <span id="proctor-status-text">Proctoring System Active</span>
+    </div>
+    <div class="proctoring-stats">
+      <div class="proctoring-stat-item">
+        <i data-lucide="eye" style="width: 15px; height: 15px; color: #A5B4FC;"></i>
+        <span>Focus Loss: <strong id="proctor-switch-count" style="color: #F87171;">0 Switches</strong></span>
+      </div>
+      <div class="proctoring-stat-item" style="font-size: 0.8rem; color: #CBD5E1;">
+        Page Visibility API Active
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Examination Grid -->
+  <div class="exam-body-grid">
+    <!-- Left: Question Viewport -->
+    <div class="question-viewport-card">
+      <div>
+        <div class="question-meta-header">
+          <div class="flex items-center gap-3">
+            <span id="q-number-pill" class="question-number-pill">Question 1</span>
+            <span id="q-marks-pill" style="font-size: 0.85rem; font-weight: 600; color: var(--text-secondary);">1 Mark</span>
+          </div>
+
+          <label style="display: flex; align-items: center; gap: 0.45rem; font-size: 0.875rem; font-weight: 600; color: var(--warning-amber); cursor: pointer;">
+            <input type="checkbox" id="q-review-check" onchange="toggleMarkForReview()">
+            <span>Mark for Review</span>
+          </label>
+        </div>
+
+        <!-- Question Text -->
+        <div id="q-text-content" class="question-text-content">
+          Loading question text...
+        </div>
+
+        <!-- Multiple Choice Options Container -->
+        <div id="q-options-container" class="options-list">
+          <!-- Injected via test-attempt.js -->
+        </div>
+      </div>
+
+      <!-- Action Footer -->
+      <div class="exam-action-bar">
+        <button id="btn-prev-question" class="btn btn-secondary" onclick="navigateQuestion(-1)">
+          <i data-lucide="arrow-left" style="width: 16px; height: 16px;"></i> Previous
+        </button>
+
+        <span style="font-size: 0.825rem; color: var(--text-muted); font-style: italic;">
+          Auto-saved safely on each selection
+        </span>
+
+        <button id="btn-next-question" class="btn btn-primary" onclick="navigateQuestion(1)">
+          Next Question <i data-lucide="arrow-right" style="width: 16px; height: 16px;"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Right: Question Palette & Proctoring Status -->
+    <div class="palette-card">
+      <div class="palette-title">Question Palette</div>
+      <div id="palette-numbers-container" class="palette-grid">
+        <!-- Injected via test-attempt.js -->
+      </div>
+
+      <!-- Palette Legend -->
+      <div class="palette-legend">
+        <div class="legend-item">
+          <div class="legend-box" style="background-color: var(--success-green);"></div>
+          <span>Answered</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-box" style="background-color: var(--warning-amber);"></div>
+          <span>Marked for Review</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-box" style="border: 2px solid var(--primary-blue); background: #FFFFFF;"></div>
+          <span>Current Question</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-box" style="border: 1px solid var(--border-color); background: #FFFFFF;"></div>
+          <span>Unanswered</span>
+        </div>
+      </div>
+
+      <!-- Proctoring Info Card -->
+      <div style="margin-top: 1.5rem; padding: 1rem; background: var(--bg-primary); border-radius: var(--radius-md); border: 1px solid var(--border-color); font-size: 0.8rem; color: var(--text-secondary); line-height: 1.5;">
+        <div style="font-weight: 700; color: var(--navy-900); margin-bottom: 0.25rem;">
+          <i data-lucide="shield" style="width: 14px; height: 14px; display: inline-block; vertical-align: middle;"></i> Exam Security
+        </div>
+        Switching tabs, minimizing the browser window, or navigating away is recorded on the server.
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab Switch Warning Modal Overlay -->
+  <div id="tab-warning-modal" class="tab-warning-overlay" style="display: none;">
+    <div class="tab-warning-card">
+      <div class="tab-warning-icon">
+        <i data-lucide="alert-triangle" style="width: 36px; height: 36px;"></i>
+      </div>
+      <span id="tab-warning-count-pill" class="tab-warning-count-pill">Tab Switch Violation</span>
+      <h3 class="tab-warning-title">Focus Violation Recorded</h3>
+      <p id="tab-warning-text" class="tab-warning-text">
+        Warning: You switched away from the test. Please remain on the examination window.
+      </p>
+      <button class="btn btn-danger btn-lg" onclick="dismissTabWarningModal()" style="width: 100%;">
+        I Understand &bull; Return to Examination
+      </button>
+    </div>
+  </div>
+
+  <!-- Submission Confirmation Modal -->
+  <div id="submit-confirm-modal" class="modal-overlay">
+    <div class="modal-card" style="max-width: 480px;">
+      <div class="modal-header">
+        <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--navy-900);">Confirm Test Submission</h3>
+        <button class="btn btn-secondary btn-sm" onclick="closeSubmitConfirmModal()"><i data-lucide="x"></i></button>
+      </div>
+
+      <div class="modal-body" style="text-align: center; padding: 2rem 1.5rem;">
+        <div style="width: 56px; height: 56px; border-radius: 50%; background: var(--primary-blue-light); color: var(--primary-blue); display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
+          <i data-lucide="help-circle" style="width: 28px; height: 28px;"></i>
+        </div>
+        <h4 style="font-size: 1.25rem; font-weight: 800; margin-bottom: 0.5rem;">Are you ready to submit?</h4>
+        <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 1.5rem;">
+          Once submitted, your answers will be graded by the server and your Bayesian concept mastery will be updated.
+        </p>
+
+        <!-- Summary Pills -->
+        <div class="grid grid-3" style="gap: 0.75rem; margin-bottom: 1.5rem;">
+          <div style="background: var(--success-green-light); border: 1px solid var(--success-green-border); border-radius: var(--radius-md); padding: 0.75rem;">
+            <div id="modal-answered-count" style="font-weight: 800; font-size: 1.25rem; color: var(--success-green);">0</div>
+            <div style="font-size: 0.75rem; color: #166534; font-weight: 600;">Answered</div>
+          </div>
+          <div style="background: #FEF2F2; border: 1px solid #FECACA; border-radius: var(--radius-md); padding: 0.75rem;">
+            <div id="modal-unanswered-count" style="font-weight: 800; font-size: 1.25rem; color: var(--danger-red);">0</div>
+            <div style="font-size: 0.75rem; color: #991B1B; font-weight: 600;">Unanswered</div>
+          </div>
+          <div style="background: var(--warning-amber-light); border: 1px solid var(--warning-amber-border); border-radius: var(--radius-md); padding: 0.75rem;">
+            <div id="modal-review-count" style="font-weight: 800; font-size: 1.25rem; color: #B45309;">0</div>
+            <div style="font-size: 0.75rem; color: #92400E; font-weight: 600;">Marked Review</div>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <button class="btn btn-secondary" onclick="closeSubmitConfirmModal()" style="flex: 1;">Return</button>
+          <button id="btn-confirm-submit" class="btn btn-primary" onclick="submitExam(false)" style="flex: 1;">Yes, Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Results Summary Modal -->
+  <div id="exam-results-modal" class="modal-overlay">
+    <div class="modal-card" style="max-width: 520px; text-align: center;">
+      <div style="padding: 2.5rem 2rem;">
+        <div style="width: 64px; height: 64px; border-radius: 50%; background: var(--success-green-light); color: var(--success-green); display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
+          <i data-lucide="award" style="width: 32px; height: 32px;"></i>
+        </div>
+        <h3 style="font-size: 1.75rem; font-weight: 800; color: var(--navy-900); margin-bottom: 0.5rem;">Examination Completed!</h3>
+        <p style="font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 1.75rem;">
+          Your responses have been recorded on the server and your concept mastery profile has been updated.
+        </p>
+
+        <div style="background: var(--bg-primary); border-radius: var(--radius-md); padding: 1.25rem; margin-bottom: 1.75rem; display: flex; justify-content: space-around;">
+          <div>
+            <div style="font-size: 0.8rem; color: var(--text-secondary); font-weight: 600;">Score</div>
+            <div id="result-score-val" style="font-size: 1.5rem; font-weight: 800; color: var(--primary-blue);">--</div>
+          </div>
+          <div>
+            <div style="font-size: 0.8rem; color: var(--text-secondary); font-weight: 600;">Accuracy</div>
+            <div id="result-pct-val" style="font-size: 1.5rem; font-weight: 800; color: var(--success-green);">--%</div>
+          </div>
+          <div>
+            <div style="font-size: 0.8rem; color: var(--text-secondary); font-weight: 600;">Tab Switches</div>
+            <div id="result-switches-val" style="font-size: 1.5rem; font-weight: 800; color: var(--text-main);">0</div>
+          </div>
+        </div>
+
+        <div style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1.25rem;">
+          Flagged for Proctor Review: <strong id="result-flagged-val">NO</strong>
+        </div>
+
+        <!-- Formal Examination Mistake Withholding Notice -->
+        <div style="background-color: #FEF3C7; border: 1px solid #FDE68A; border-radius: var(--radius-md); padding: 0.85rem 1rem; font-size: 0.825rem; color: #92400E; text-align: left; margin-bottom: 1.5rem; display: flex; align-items: flex-start; gap: 0.65rem;">
+          <i data-lucide="lock" style="width: 18px; height: 18px; flex-shrink: 0; margin-top: 2px; color: #B45309;"></i>
+          <div>
+            <strong>Formal Examination Security Notice:</strong><br/>
+            Individual question mistakes and solution keys are securely withheld. Your instructor evaluates the cohort and controls grade releases.
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <a href="/tests.html" class="btn btn-secondary" style="flex: 1;">Tests Catalog</a>
+          <a href="/student-dashboard.html" class="btn btn-primary" style="flex: 1;">View Dashboard</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/app.js"></script>
+  <script src="/js/test-attempt.js"></script>
+</body>
+</html>

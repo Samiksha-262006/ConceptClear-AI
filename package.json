@@ -1,0 +1,32 @@
+{
+  "name": "conceptclear-ai",
+  "version": "1.0.0",
+  "description": "ConceptClear AI — AI-Powered Personalised Learning Through Learning-Gap Detection",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "backend": "C:\\Users\\LENOVO\\python311\\python.exe -m uvicorn main:app --app-dir backend --host 127.0.0.1 --port 8000 --reload",
+    "start": "vite",
+    "test": "C:\\Users\\LENOVO\\python311\\python.exe -c \"import sys; sys.path.insert(0, 'backend'); import main; print('Backend modules operational!')\""
+  },
+  "keywords": [
+    "education",
+    "ai-tutor",
+    "learning-gap-detection",
+    "bayesian-knowledge-tracing",
+    "fastapi"
+  ],
+  "author": "ConceptClear AI Team",
+  "license": "MIT",
+  "dependencies": {
+    "lucide-react": "^1.61.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^6.1.2",
+    "vite": "^8.3.5"
+  }
+}

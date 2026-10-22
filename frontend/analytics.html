@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Learning Analytics & Gap Detection — ConceptClear AI</title>
+  <meta name="description" content="In-depth learning diagnostics, Bayesian Knowledge Tracing curves, and cognitive error analysis.">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <div class="dashboard-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <a href="/student-dashboard.html" class="sidebar-brand">
+          <div class="sidebar-brand-icon"><i data-lucide="brain" style="width: 18px; height: 18px;"></i></div>
+          <span>ConceptClear AI</span>
+        </a>
+      </div>
+
+      <ul class="sidebar-menu">
+        <li>
+          <a href="/student-dashboard.html" class="sidebar-item-link">
+            <i data-lucide="layout-dashboard" style="width: 18px; height: 18px;"></i>
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <li>
+          <a href="/learn.html" class="sidebar-item-link">
+            <i data-lucide="book-open" style="width: 18px; height: 18px;"></i>
+            <span>My Learning</span>
+          </a>
+        </li>
+        <li>
+          <a href="/tests.html" class="sidebar-item-link">
+            <i data-lucide="file-text" style="width: 18px; height: 18px;"></i>
+            <span>Take a Test</span>
+          </a>
+        </li>
+        <li>
+          <a href="/concept-map.html" class="sidebar-item-link">
+            <i data-lucide="network" style="width: 18px; height: 18px;"></i>
+            <span>Concept Map</span>
+          </a>
+        </li>
+        <li>
+          <a href="/analytics.html" class="sidebar-item-link active">
+            <i data-lucide="line-chart" style="width: 18px; height: 18px;"></i>
+            <span>My Progress</span>
+          </a>
+        </li>
+        <li>
+          <a href="/profile.html" class="sidebar-item-link">
+            <i data-lucide="user" style="width: 18px; height: 18px;"></i>
+            <span>Profile</span>
+          </a>
+        </li>
+        <li style="margin-top: auto;">
+          <a href="#" class="sidebar-item-link" onclick="logout(); return false;" style="color: #F87171;">
+            <i data-lucide="log-out" style="width: 18px; height: 18px;"></i>
+            <span>Logout</span>
+          </a>
+        </li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main-wrapper">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="mobile-menu-btn" aria-label="Toggle navigation"><i data-lucide="menu"></i></button>
+          <div class="topbar-greeting">
+            <h2>Cognitive Mastery & Gap Analytics 📊</h2>
+            <p>Scientific mastery estimation calibrated through Bayesian Knowledge Tracing</p>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <a href="/student-dashboard.html" class="btn btn-secondary btn-sm">
+            <i data-lucide="arrow-left" style="width: 14px; height: 14px;"></i> Return to Dashboard
+          </a>
+        </div>
+      </header>
+
+      <main class="dashboard-content">
+        <!-- Explanatory Banner -->
+        <div class="card" style="background: linear-gradient(135deg, #EEF2FF 0%, #FFFFFF 100%); border-left: 4px solid var(--primary-blue);">
+          <div class="flex items-center gap-3">
+            <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--primary-blue); color: white; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+              <i data-lucide="cpu" style="width: 20px; height: 20px;"></i>
+            </div>
+            <div>
+              <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--navy-900); margin-bottom: 0.25rem;">
+                Bayesian Knowledge Tracing (BKT) Model
+              </h3>
+              <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.5;">
+                Unlike crude percentage scoring, our learning engine calculates the latent probability that you actually understand a concept, accounting for slips (careless mistakes) and lucky guesses.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Row 1: Radar Chart & BKT Bar Chart -->
+        <div class="grid grid-2" style="gap: 1.75rem;">
+          <!-- Radar Chart -->
+          <div class="card flex flex-col justify-between" style="padding: 1.75rem;">
+            <div class="flex items-center justify-between" style="margin-bottom: 1rem;">
+              <h3 style="font-size: 1.15rem; font-weight: 800;">Multidimensional Knowledge Radar</h3>
+              <span class="badge badge-primary">Curriculum Span</span>
+            </div>
+            <div style="position: relative; height: 320px; width: 100%;">
+              <canvas id="analyticsRadarChart"></canvas>
+            </div>
+          </div>
+
+          <!-- BKT Bar Chart -->
+          <div class="card flex flex-col justify-between" style="padding: 1.75rem;">
+            <div class="flex items-center justify-between" style="margin-bottom: 1rem;">
+              <h3 style="font-size: 1.15rem; font-weight: 800;">Concept Mastery Probabilities</h3>
+              <span class="badge badge-primary">P(Mastery)</span>
+            </div>
+            <div style="position: relative; height: 320px; width: 100%;">
+              <canvas id="analyticsBarChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Row 2: Misconception Timeline & Prerequisite Analysis -->
+        <div class="grid grid-2" style="gap: 1.75rem;">
+          <!-- Misconception Timeline -->
+          <div class="card">
+            <div class="flex items-center justify-between" style="margin-bottom: 1rem;">
+              <div class="flex items-center gap-2">
+                <i data-lucide="history" style="width: 20px; height: 20px; color: var(--danger-red);"></i>
+                <h3 style="font-size: 1.15rem; font-weight: 800;">Diagnosed Misconception History</h3>
+              </div>
+              <span class="badge badge-gap">Pattern Audit</span>
+            </div>
+            <div id="misconceptions-timeline">
+              <!-- Injected via analytics.js -->
+            </div>
+          </div>
+
+          <!-- Prerequisite Tracing Card -->
+          <div class="card">
+            <div class="flex items-center justify-between" style="margin-bottom: 1rem;">
+              <div class="flex items-center gap-2">
+                <i data-lucide="git-pull-request" style="width: 20px; height: 20px; color: var(--primary-blue);"></i>
+                <h3 style="font-size: 1.15rem; font-weight: 800;">Root-Cause Bottleneck Isolation</h3>
+              </div>
+              <span class="badge badge-primary">NetworkX</span>
+            </div>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 1rem;">
+              When errors occur in advanced topics (e.g. Linear Equations or Quadratics), the engine backtracks through the prerequisite graph to identify foundational gaps.
+            </p>
+            <div style="background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1.25rem;">
+              <div style="font-weight: 700; color: var(--navy-900); font-size: 0.95rem; margin-bottom: 0.5rem;">
+                Sample Diagnostic Lineage:
+              </div>
+              <div style="font-family: monospace; font-size: 0.85rem; color: var(--text-secondary); line-height: 1.8;">
+                Basic Arithmetic (85% Mastered) &rarr; <span style="color: var(--danger-red); font-weight: 700;">Fractions (35% Gap)</span> &rarr; Basic Algebra (42%) &rarr; Linear Equations (30%)
+              </div>
+              <div style="margin-top: 1rem;">
+                <a href="/learn.html?concept=fractions" class="btn btn-danger btn-sm">
+                  <i data-lucide="book-open" style="width: 14px; height: 14px;"></i> Bridge Fractions Gap First
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Row 3: Curriculum Breakdown Matrix -->
+        <div class="card">
+          <div class="flex items-center justify-between" style="margin-bottom: 1.25rem;">
+            <h3 style="font-size: 1.25rem; font-weight: 800; color: var(--navy-900);">Complete Mathematics Concept Matrix</h3>
+            <a href="/concept-map.html" class="btn btn-secondary btn-sm">View Concept Map</a>
+          </div>
+
+          <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
+              <thead>
+                <tr style="border-bottom: 2px solid var(--border-color); text-align: left; color: var(--text-secondary);">
+                  <th style="padding: 0.75rem 0.5rem;">Concept</th>
+                  <th style="padding: 0.75rem 0.5rem;">Category</th>
+                  <th style="padding: 0.75rem 0.5rem; width: 35%;">Mastery Level</th>
+                  <th style="padding: 0.75rem 0.5rem;">Diagnostic Status</th>
+                  <th style="padding: 0.75rem 0.5rem;">Action</th>
+                </tr>
+              </thead>
+              <tbody id="concepts-breakdown-table">
+                <!-- Injected via analytics.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="/js/app.js"></script>
+  <script src="/js/analytics.js"></script>
+</body>
+</html>

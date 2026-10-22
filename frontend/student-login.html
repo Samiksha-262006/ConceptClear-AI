@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Login — ConceptClear AI</title>
+  <meta name="description" content="Log in to your ConceptClear AI student portal to access diagnostic quizzes and personalised learning paths.">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/auth.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <div class="auth-split">
+    <!-- Left Hero Panel -->
+    <div class="auth-hero-panel">
+      <div class="auth-hero-content">
+        <a href="/" class="brand-logo" style="color: #FFFFFF; margin-bottom: 3.5rem;">
+          <div class="brand-logo-icon"><i data-lucide="brain" style="width: 20px; height: 20px;"></i></div>
+          <span>ConceptClear AI</span>
+        </a>
+
+        <h1 class="auth-hero-heading">Welcome Back, Learner.</h1>
+        <p class="auth-hero-desc">
+          Pick up where you left off. Continue your streak, resolve prerequisite gaps, and watch your concept map flourish.
+        </p>
+
+        <div class="auth-feature-list">
+          <div class="auth-feature-item">
+            <div class="auth-feature-icon"><i data-lucide="crosshair" style="width: 18px; height: 18px;"></i></div>
+            <span>Intelligent root-cause diagnosis for every incorrect answer</span>
+          </div>
+          <div class="auth-feature-item">
+            <div class="auth-feature-icon"><i data-lucide="bot" style="width: 18px; height: 18px;"></i></div>
+            <span>Personalized AI Tutor in English, Hindi, and Marathi</span>
+          </div>
+          <div class="auth-feature-item">
+            <div class="auth-feature-icon"><i data-lucide="trending-up" style="width: 18px; height: 18px;"></i></div>
+            <span>Bayesian mastery estimation tracking your progress</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="font-size: 0.85rem; color: #94A3B8;">
+        &copy; 2026 ConceptClear AI &bull; Prometheus Hackathon Edition
+      </div>
+    </div>
+
+    <!-- Right Form Panel -->
+    <div class="auth-form-panel">
+      <div class="auth-form-container">
+        <!-- Switch to Teacher Portal Banner -->
+        <div style="background: linear-gradient(135deg, #0F172A 0%, #1E1B4B 100%); border: 1px solid rgba(99, 102, 241, 0.4); border-radius: var(--radius-md); padding: 0.85rem 1.15rem; margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: space-between; color: #FFFFFF; box-shadow: 0 2px 10px rgba(15, 23, 42, 0.2);">
+          <div class="flex items-center gap-2">
+            <i data-lucide="graduation-cap" style="width: 20px; height: 20px; color: #A5B4FC; flex-shrink: 0;"></i>
+            <span style="font-size: 0.825rem; font-weight: 600; color: #E2E8F0;">Instructor or Test Examiner?</span>
+          </div>
+          <a href="/teacher-login.html" class="btn btn-sm" style="background: var(--primary-blue); color: #FFFFFF; font-size: 0.775rem; font-weight: 700; padding: 0.35rem 0.75rem; white-space: nowrap;">
+            Teacher Exam Portal &rarr;
+          </a>
+        </div>
+
+        <div class="auth-header">
+          <span class="auth-role-pill pill-student">Student Portal</span>
+          <h2 class="auth-title">Sign In</h2>
+          <p class="auth-subtitle">Enter your student credentials to access your dashboard</p>
+        </div>
+
+        <!-- 1-Click Demo Fill Hint -->
+        <div class="demo-hint-box flex items-center justify-between">
+          <div>
+            <strong>Judge / Evaluator Demo:</strong><br/>
+            <code>student@conceptclear.ai</code> / <code>Student@123</code>
+          </div>
+          <button type="button" id="btn-fill-student-demo" class="btn btn-secondary btn-sm" style="font-size: 0.775rem;">
+            Auto-Fill
+          </button>
+        </div>
+
+        <form id="student-login-form">
+          <div class="form-group">
+            <label class="form-label" for="login-email">Email or Username</label>
+            <input type="email" id="login-email" class="form-input" placeholder="student@example.com" required autocomplete="username">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="login-password">Password</label>
+            <div class="input-password-wrapper">
+              <input type="password" id="login-password" class="form-input" placeholder="••••••••" required autocomplete="current-password">
+              <button type="button" class="btn-toggle-password" aria-label="Toggle password visibility">
+                <i data-lucide="eye" style="width: 18px; height: 18px;"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <label class="remember-label">
+              <input type="checkbox" id="remember-me" checked>
+              <span>Remember me</span>
+            </label>
+            <a href="#" style="font-size: 0.85rem;" onclick="showToast('Password reset link has been dispatched to your email.', 'info'); return false;">Forgot password?</a>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.85rem; font-size: 1rem;">
+            <i data-lucide="log-in" style="width: 18px; height: 18px;"></i> Sign In as Student
+          </button>
+        </form>
+
+        <div class="auth-switch-prompt">
+          Don't have an account? <a href="/student-register.html" style="font-weight: 700;">Create student account</a>
+        </div>
+
+        <div class="role-switcher-box">
+          Are you a teacher or faculty member?
+          <div style="margin-top: 0.5rem;">
+            <a href="/teacher-login.html" class="btn btn-secondary btn-sm" style="width: 100%;">
+              Switch to Teacher Portal <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/app.js"></script>
+  <script src="/js/auth.js"></script>
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Registration — ConceptClear AI</title>
+  <meta name="description" content="Register for a free ConceptClear AI student account to start discovering your learning gaps and building true concept mastery.">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/auth.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <div class="auth-split">
+    <!-- Left Hero Panel -->
+    <div class="auth-hero-panel">
+      <div class="auth-hero-content">
+        <a href="/" class="brand-logo" style="color: #FFFFFF; margin-bottom: 3.5rem;">
+          <div class="brand-logo-icon"><i data-lucide="brain" style="width: 20px; height: 20px;"></i></div>
+          <span>ConceptClear AI</span>
+        </a>
+
+        <h1 class="auth-hero-heading">Learn What Traditional Classrooms Miss.</h1>
+        <p class="auth-hero-desc">
+          Stop memorizing formulas without understanding. Start isolating your prerequisite gaps today.
+        </p>
+
+        <div class="auth-feature-list">
+          <div class="auth-feature-item">
+            <div class="auth-feature-icon"><i data-lucide="check" style="width: 18px; height: 18px;"></i></div>
+            <span>Adaptive question selection tailored to your exact level</span>
+          </div>
+          <div class="auth-feature-item">
+            <div class="auth-feature-icon"><i data-lucide="check" style="width: 18px; height: 18px;"></i></div>
+            <span>Multilingual step-by-step worked solutions</span>
+          </div>
+          <div class="auth-feature-item">
+            <div class="auth-feature-icon"><i data-lucide="check" style="width: 18px; height: 18px;"></i></div>
+            <span>Interactive concept dependency map tracking your strengths</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="font-size: 0.85rem; color: #94A3B8;">
+        &copy; 2026 ConceptClear AI &bull; Prometheus Hackathon Edition
+      </div>
+    </div>
+
+    <!-- Right Form Panel -->
+    <div class="auth-form-panel">
+      <div class="auth-form-container">
+        <div class="auth-header">
+          <span class="auth-role-pill pill-student">New Student Account</span>
+          <h2 class="auth-title">Create Account</h2>
+          <p class="auth-subtitle">Fill in your academic profile to configure personalized learning</p>
+        </div>
+
+        <form id="student-register-form">
+          <div class="form-group">
+            <label class="form-label" for="reg-name">Full Name</label>
+            <input type="text" id="reg-name" class="form-input" placeholder="e.g. Aarav Sharma" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="reg-email">Email Address</label>
+            <input type="email" id="reg-email" class="form-input" placeholder="aarav@example.com" required autocomplete="email">
+          </div>
+
+          <div class="grid grid-2" style="gap: 1rem;">
+            <div class="form-group">
+              <label class="form-label" for="reg-class">Class / Academic Level</label>
+              <select id="reg-class" class="form-select" required>
+                <option value="Class 10" selected>Class 10</option>
+                <option value="Class 9">Class 9</option>
+                <option value="Class 8">Class 8</option>
+                <option value="Class 11">Class 11</option>
+                <option value="Class 12">Class 12</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="reg-lang">Preferred Language</label>
+              <select id="reg-lang" class="form-select" required>
+                <option value="en" selected>English</option>
+                <option value="hi">हिंदी (Hindi)</option>
+                <option value="mr">मराठी (Marathi)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid grid-2" style="gap: 1rem;">
+            <div class="form-group">
+              <label class="form-label" for="reg-password">Password</label>
+              <input type="password" id="reg-password" class="form-input" placeholder="Min. 6 chars" required autocomplete="new-password">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="reg-confirm-password">Confirm Password</label>
+              <input type="password" id="reg-confirm-password" class="form-input" placeholder="Repeat password" required autocomplete="new-password">
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.85rem; font-size: 1rem; margin-top: 0.5rem;">
+            <i data-lucide="user-plus" style="width: 18px; height: 18px;"></i> Submit Registration
+          </button>
+        </form>
+
+        <div class="auth-switch-prompt">
+          Already have an account? <a href="/student-login.html" style="font-weight: 700;">Sign in here</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/app.js"></script>
+  <script src="/js/auth.js"></script>
+</body>
+</html>
